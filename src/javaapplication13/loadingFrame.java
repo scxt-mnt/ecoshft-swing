@@ -60,9 +60,9 @@ public class loadingFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         loadingHeader = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/background_ecoShift_516x300.png"))); // NOI18N
         jLabel3.setPreferredSize(new java.awt.Dimension(490, 300));
@@ -77,14 +77,14 @@ public class loadingFrame extends javax.swing.JFrame {
         loadingHeader.setText("Loading data");
         getContentPane().add(loadingHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 90, 20));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/ecoShiftLoading-unscreen-ezgif.com-resize (2).gif"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 100, 70));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/ecoShiftLoading-unscreen-ezgif.com-resize (2).gif"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 130, 40));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/ecoshift-removebg-preview_50.png"))); // NOI18N
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 320, 170));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/ecoshift-removebg-preview_50.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 240, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/background_ecoShift_516x300.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 290));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/background_ecoShift_516x300.png"))); // NOI18N
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 290));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -129,7 +129,7 @@ public class loadingFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel loadingHeader;
     // End of variables declaration//GEN-END:variables
 }

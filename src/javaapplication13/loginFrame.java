@@ -106,12 +106,14 @@ public class loginFrame extends javax.swing.JFrame {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, jTextField2.getText());
             statement.setString(2, jPasswordField1.getText());
-            statement.executeQuery();
-            
-            productsFrames frame = new productsFrames();
-            frame.setVisible(true);
+            ResultSet res = statement.executeQuery();
+           
             
             this.dispose();
+            if(res.next()){
+            dashboard dashFrame = new dashboard(res.getString("username"));
+            dashFrame.setVisible(true);
+            }
             
             
         } catch (Exception e) {
