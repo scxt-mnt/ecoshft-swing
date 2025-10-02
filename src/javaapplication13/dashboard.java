@@ -4,6 +4,9 @@
  */
 package javaapplication13;
 
+import javax.swing.JOptionPane;
+
+
 /**
  *
  * @author borag
@@ -13,11 +16,12 @@ public class dashboard extends javax.swing.JFrame {
     /**
      * Creates new form dashboard
      */
-    
     public dashboard(String username) {
         initComponents();
         setLocationRelativeTo(null);
-        greetLabel.setText(greetLabel.getText() + " "+ username.toUpperCase());
+        if(username != "") {
+            JOptionPane.showMessageDialog(this, "Welcome " + username);
+        }
     }
 
     /**
@@ -31,7 +35,6 @@ public class dashboard extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        greetLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -47,26 +50,21 @@ public class dashboard extends javax.swing.JFrame {
         jLabel3.setText("Dashboard");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, -1, -1));
 
-        greetLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        greetLabel.setForeground(new java.awt.Color(255, 255, 255));
-        greetLabel.setText("Welcome");
-        getContentPane().add(greetLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, 30));
-
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_ecoshift-removebg-preview (1).png"))); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 0));
+        jButton1.setBackground(new java.awt.Color(0, 153, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Inverntory system →");
+        jButton1.setText("Inventory system →");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(0, 204, 0));
+        jButton2.setBackground(new java.awt.Color(0, 153, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Sales Tracking →");
@@ -75,7 +73,7 @@ public class dashboard extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 210, 30));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 210, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 520, 370));
@@ -128,7 +126,6 @@ public class dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel greetLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
