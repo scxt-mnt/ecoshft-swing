@@ -46,6 +46,7 @@ public class editFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         frame = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
@@ -66,18 +67,30 @@ public class editFrame extends javax.swing.JFrame {
                 editQuantityActionPerformed(evt);
             }
         });
-        getContentPane().add(editQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 160, 40));
+        getContentPane().add(editQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 190, 180, 40));
 
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("product type");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
+        editId.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                editIdComponentAdded(evt);
+            }
+        });
+        editId.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                editIdInputMethodTextChanged(evt);
+            }
+        });
         editId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editIdActionPerformed(evt);
             }
         });
-        getContentPane().add(editId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 160, 40));
+        getContentPane().add(editId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 160, 40));
 
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
         jLabel2.setText("product quantity");
@@ -103,14 +116,14 @@ public class editFrame extends javax.swing.JFrame {
 
         jLabel7.setForeground(new java.awt.Color(204, 204, 204));
         jLabel7.setText("product id");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
         editPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editPriceActionPerformed(evt);
             }
         });
-        getContentPane().add(editPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 160, 40));
+        getContentPane().add(editPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 180, 40));
 
         jLabel8.setForeground(new java.awt.Color(204, 204, 204));
         jLabel8.setText("product price");
@@ -149,6 +162,17 @@ public class editFrame extends javax.swing.JFrame {
         });
         getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, -1, -1));
 
+        jButton2.setBackground(new java.awt.Color(0, 153, 0));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("edit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 70, 20));
+
         frame.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
         getContentPane().add(frame, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 400));
 
@@ -160,7 +184,7 @@ public class editFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_editQuantityActionPerformed
 
     private void editIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editIdActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_editIdActionPerformed
 
     private void editNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editNameActionPerformed
@@ -175,7 +199,7 @@ public class editFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_editPriceActionPerformed
 
-
+    Connection conn;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             Connection conn = DriverManager.getConnection(
@@ -187,13 +211,13 @@ public class editFrame extends javax.swing.JFrame {
             // select data 
             String query = "UPDATE `productstable` SET `product name`=?,`product type`=?,`price`=?,`quantity`=? WHERE `id` = ?";
             PreparedStatement statement = conn.prepareStatement(query);
-            
+
             statement.setString(1, editName.getText());
             statement.setString(2, editType.getText());
-            statement.setInt(3,Integer.parseInt(editPrice.getText()));
-            statement.setInt(4,Integer.parseInt(editQuantity.getText()));
-            statement.setInt(5,Integer.parseInt(editId.getText()));
-            
+            statement.setInt(3, Integer.parseInt(editPrice.getText()));
+            statement.setInt(4, Integer.parseInt(editQuantity.getText()));
+            statement.setInt(5, Integer.parseInt(editId.getText()));
+
             int res = statement.executeUpdate();
 
             if (res > 0) {
@@ -204,7 +228,6 @@ public class editFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -217,6 +240,41 @@ public class editFrame extends javax.swing.JFrame {
         new productsFrames().setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+    private void editIdInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_editIdInputMethodTextChanged
+
+
+    }//GEN-LAST:event_editIdInputMethodTextChanged
+
+    private void editIdComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_editIdComponentAdded
+
+    }//GEN-LAST:event_editIdComponentAdded
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:5050/mydatabase",
+                    "root",
+                    ""
+            );
+
+            String query = "SELECT * FROM `productstable` WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+
+            statement.setInt(1, Integer.parseInt(editId.getText()));
+
+            ResultSet res = statement.executeQuery();
+
+            if (res.next()) {
+                editName.setText(res.getString("product name"));
+                editType.setText(res.getString("product type"));
+                editPrice.setText(res.getString("price"));
+                editQuantity.setText(res.getString("quantity"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();;
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,6 +319,7 @@ public class editFrame extends javax.swing.JFrame {
     private javax.swing.JTextField editType;
     private javax.swing.JLabel frame;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
