@@ -78,8 +78,8 @@ public class searchFrame extends javax.swing.JFrame {
         getContentPane().add(searchInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 130, 30));
 
         jLabel4.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel4.setText("product id");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        jLabel4.setText("product name");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, 20));
 
         jButton1.setBackground(new java.awt.Color(0, 153, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -133,10 +133,10 @@ public class searchFrame extends javax.swing.JFrame {
             );
 
             // select data 
-            String query = "SELECT * FROM `productstable` WHERE id = ? ";
+            String query = "SELECT * FROM `productstable` WHERE `product name` = ? ";
             PreparedStatement statement = conn.prepareStatement(query);
             
-            statement.setInt(1,Integer.parseInt(searchInput.getText()));
+            statement.setString(1,searchInput.getText());
             ResultSet res = statement.executeQuery();
             
             
