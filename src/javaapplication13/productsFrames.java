@@ -18,15 +18,9 @@ public class productsFrames extends javax.swing.JFrame {
      * Creates new form productsFrames
      */
     Connection conn;
-
-    public productsFrames() {
-        initComponents();
-        
-        deletePanel.setVisible(false);
-
-        setLocationRelativeTo(null);
-
-        try {
+    
+    public void callData(){
+         try {
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:5050/mydatabase",
                     "root",
@@ -53,7 +47,7 @@ public class productsFrames extends javax.swing.JFrame {
                 String price = res.getString("price");
                 String quantity = res.getString("quantity");
 
-                model.addRow(new Object[]{id, name, type, price, quantity});
+                model.addRow(new Object[]{id, name, type,"P" + price, quantity});
             }
 
             myTable.setModel(model);
@@ -61,6 +55,18 @@ public class productsFrames extends javax.swing.JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         };
+    }
+
+    public productsFrames() {
+        initComponents();
+        
+        deletePanel.setVisible(false);
+
+        setLocationRelativeTo(null);
+        
+        callData();
+
+       
     }
 
     /**
@@ -93,6 +99,7 @@ public class productsFrames extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         deletePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -230,6 +237,7 @@ public class productsFrames extends javax.swing.JFrame {
         getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, 120, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(517, 405));
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 400));
 
         pack();
@@ -276,8 +284,7 @@ public class productsFrames extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "no id: " + idDeleteInput.getText() + " exist");
             }
 
-            revalidate();
-            repaint();
+            callData();
         } catch (SQLException e) {
             e.printStackTrace();
         }

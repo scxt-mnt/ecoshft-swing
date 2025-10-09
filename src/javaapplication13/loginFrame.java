@@ -19,6 +19,7 @@ public class loginFrame extends javax.swing.JFrame {
     public loginFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -84,6 +85,7 @@ public class loginFrame extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 80, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
+        jLabel1.setAutoscrolls(true);
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 350));
 
         pack();
