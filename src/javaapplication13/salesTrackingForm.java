@@ -21,7 +21,8 @@ public class salesTrackingForm extends javax.swing.JFrame {
      */
     public salesTrackingForm() {
         initComponents();
-
+        setLocationRelativeTo(null);
+        
         try {
             Connection conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:5050/mydatabase",
@@ -30,7 +31,7 @@ public class salesTrackingForm extends javax.swing.JFrame {
             );
 
             // select data 
-            String query = "SELECT * FROM `productstable`";
+            String query = "SELECT a.*, a.id AS productstables_id, b.*, b.id AS productsales_id, b.quantity AS productsales_quantity FROM productstable a JOIN productsales b ON a.id = b.id";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet res = statement.executeQuery();
 
@@ -38,18 +39,14 @@ public class salesTrackingForm extends javax.swing.JFrame {
 
             model.addColumn("ID");
             model.addColumn("product name");
-            model.addColumn("product type");
-            model.addColumn("price");
-            model.addColumn("quantity");
+            model.addColumn("Quantity");
 
             while (res.next()) {
-                int id = res.getInt("id");
+                int id = res.getInt("productsales_id");
                 String name = res.getString("product name");
-                String type = res.getString("product type");
-                String price = res.getString("price");
-                String quantity = res.getString("quantity");
+                String quantity = res.getString("productsales_quantity");
 
-                model.addRow(new Object[]{id, name, type, price, quantity});
+                model.addRow(new Object[]{id, name, quantity});
             }
 
             myTable.setModel(model);
@@ -68,11 +65,11 @@ public class salesTrackingForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         myTable = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
@@ -80,6 +77,14 @@ public class salesTrackingForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton3.setText("add sales");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_ecoshift-removebg-preview (1).png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 36));
@@ -102,15 +107,7 @@ public class salesTrackingForm extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(myTable);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 370, 280));
-
-        jButton2.setText("add sales");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 350, -1, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 370, 280));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 380));
@@ -118,9 +115,10 @@ public class salesTrackingForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        new addSales().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,7 +157,7 @@ public class salesTrackingForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

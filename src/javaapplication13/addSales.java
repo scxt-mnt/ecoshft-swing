@@ -18,6 +18,7 @@ public class addSales extends javax.swing.JFrame {
      */
     public addSales() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -30,18 +31,50 @@ public class addSales extends javax.swing.JFrame {
     private void initComponents() {
 
         jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         productId = new javax.swing.JTextField();
         productAmount = new javax.swing.JTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
 
         jTextField2.setText("jTextField2");
 
+        jButton1.setText("jButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton2.setText("view sales");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, -1, -1));
+
+        jToggleButton1.setText("submit");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, -1, 20));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("quantity");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("product id");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_ecoshift-removebg-preview (1).png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 36));
@@ -51,18 +84,16 @@ public class addSales extends javax.swing.JFrame {
         jLabel3.setText("Add Sales");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 190, 20));
         getContentPane().add(productId, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 170, 30));
-        getContentPane().add(productAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 170, 30));
 
-        jToggleButton1.setText("submit");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        productAmount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                productAmountActionPerformed(evt);
             }
         });
-        getContentPane().add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 243, -1, 20));
+        getContentPane().add(productAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 170, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 310));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 300));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -80,29 +111,64 @@ public class addSales extends javax.swing.JFrame {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, Integer.parseInt(productId.getText()));
             ResultSet res = statement.executeQuery();
+            
+            if(!res.next()){
+                JOptionPane.showMessageDialog(this, "no id " + productId.getText() + "found");
+                return;
+            }
+
+            int totalQuantity = 0;
 
             if (res.next()) {
                 try {
+                    int initialQuantity = res.getInt("quantity");
+                    totalQuantity = initialQuantity - Integer.parseInt(productAmount.getText());
                     
-                    String insertQuery = "INSERT INTO `productsales`(`id`, `product name`, `product type`, `price`, `amount`) VALUES (?, ?, ? , ? ,? )";
-                    PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
-                    insertStatement.setString(1, res.getString("id"));
-                    insertStatement.setString(2, res.getString("product name"));
-                    insertStatement.setString(3, res.getString("product type"));
-                    insertStatement.setString(4, res.getString("price"));
-                    insertStatement.setInt(5,Integer.parseInt(productAmount.getText()));
-                    
-                    insertStatement.execute();
-                    JOptionPane.showMessageDialog(this, "successfully tracked");
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    if(totalQuantity <= 0){
+                        JOptionPane.showMessageDialog(this, "out of stocks");
+                        return;
+                    }
+
+                    if (totalQuantity > 0) {
+                        String insertQuery = "INSERT INTO `productsales`(`id`, `quantity`) VALUES (?, ?)";
+                        PreparedStatement insertStatement = conn.prepareStatement(insertQuery);
+
+                        insertStatement.setInt(1, Integer.parseInt(productId.getText()));
+                        insertStatement.setInt(2, Integer.parseInt(productAmount.getText()));
+
+                        insertStatement.execute();
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "failed on insert");
+                }
+
+                try {
+                    String productQuery = "UPDATE productstable SET quantity = ? WHERE id = ?";
+                    PreparedStatement productStatement = conn.prepareStatement(productQuery);
+                    productStatement.setInt(1, totalQuantity);
+                    productStatement.setInt(2, Integer.parseInt(productId.getText()));
+
+                    productStatement.execute();
+
+                    JOptionPane.showMessageDialog(this, "successfully sell");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "failed on update");
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "failed on selection");
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void productAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productAmountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productAmountActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new salesTrackingForm().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,9 +206,13 @@ public class addSales extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField productAmount;
