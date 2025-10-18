@@ -6,6 +6,8 @@ package javaapplication13;
 
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -16,9 +18,49 @@ public class addSales extends javax.swing.JFrame {
     /**
      * Creates new form addSales
      */
+    public void textChanged() {
+        try {
+
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:5050/mydatabase",
+                    "root",
+                    ""
+            );
+            String selectQuery = "SELECT * FROM `productstable` WHERE `id` = ?";
+            PreparedStatement selectStatement = conn.prepareStatement(selectQuery);
+            selectStatement.setInt(1, Integer.parseInt(productId.getText()));
+            ResultSet selectRes = selectStatement.executeQuery();
+
+            if (selectRes.next()) {
+                labelName.setText(selectRes.getString("product name"));
+                labelPrice.setText(selectRes.getString("price"));
+                labelQuantity.setText(selectRes.getString("quantity"));
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
     public addSales() {
         initComponents();
         setLocationRelativeTo(null);
+
+        productId.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textChanged();
+            }
+        });
     }
 
     /**
@@ -32,11 +74,13 @@ public class addSales extends javax.swing.JFrame {
 
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        viewInput = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         labelQuantity = new javax.swing.JLabel();
         labelName = new javax.swing.JLabel();
-        labelpRICE = new javax.swing.JLabel();
+        labelPrice = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
@@ -47,6 +91,7 @@ public class addSales extends javax.swing.JFrame {
         productId = new javax.swing.JTextField();
         productAmount = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         jTextField2.setText("jTextField2");
 
@@ -56,25 +101,30 @@ public class addSales extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        viewInput.setText("view");
-        viewInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewInputActionPerformed(evt);
-            }
-        });
-        getContentPane().add(viewInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 70, 20));
+        jLabel7.setText("quantity:");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, -1, -1));
 
-        labelQuantity.setText("jLabel7");
-        getContentPane().add(labelQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
+        labelQuantity.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelQuantity.setForeground(new java.awt.Color(255, 255, 255));
+        labelQuantity.setDoubleBuffered(true);
+        getContentPane().add(labelQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 60, 20));
 
-        labelName.setText("jLabel7");
-        getContentPane().add(labelName, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, -1, -1));
+        labelName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelName.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(labelName, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 50, 20));
 
-        labelpRICE.setText("jLabel7");
-        getContentPane().add(labelpRICE, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
+        labelPrice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelPrice.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(labelPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, 60, 20));
+
+        jLabel9.setText("name:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
 
         jLabel6.setText("Product details");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 70, -1, -1));
+
+        jLabel10.setText("price:");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 120, -1, -1));
 
         jButton5.setBackground(new java.awt.Color(153, 153, 153));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -132,6 +182,9 @@ public class addSales extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 300));
 
+        jLabel8.setText("name:");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -155,12 +208,12 @@ public class addSales extends javax.swing.JFrame {
 
             int totalQuantity = 0;
 
-            System.out.print("hello");
             int initialQuantity = res.getInt("quantity");
             totalQuantity = initialQuantity - Integer.parseInt(productAmount.getText());
 
-            if (totalQuantity <= 0) {
+            if (totalQuantity < 0) {
                 JOptionPane.showMessageDialog(this, "out of stocks");
+                return;
             }
 
             if (totalQuantity > 0) {
@@ -208,31 +261,6 @@ public class addSales extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void viewInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewInputActionPerformed
-        try {
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:5050/mydatabase",
-                    "root",
-                    ""
-            );
-
-            // select data 
-            String query = "SELECT * FROM `productstable` WHERE `product name` = ? ";
-            PreparedStatement statement = conn.prepareStatement(query);
-
-            statement.setInt(1, Integer.parseInt(productId.getText()));
-            ResultSet res = statement.executeQuery();
-
-            if (res.next()) {
-                   labelName.setText(res.getString("product name"));
-                   labelName.setText(String.valueOf(res.getInt("product price")));
-                   labelName.setText(String.valueOf(res.getInt("product quantity")));
-            }
-        } catch (Exception e) {
-        }
-
-    }//GEN-LAST:event_viewInputActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -273,18 +301,21 @@ public class addSales extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel labelName;
+    private javax.swing.JLabel labelPrice;
     private javax.swing.JLabel labelQuantity;
-    private javax.swing.JLabel labelpRICE;
     private javax.swing.JTextField productAmount;
     private javax.swing.JTextField productId;
-    private javax.swing.JButton viewInput;
     // End of variables declaration//GEN-END:variables
 }

@@ -113,7 +113,7 @@ public class editFrame extends javax.swing.JFrame {
                 editTypeActionPerformed(evt);
             }
         });
-        getContentPane().add(editType, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 160, 40));
+        getContentPane().add(editType, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 160, 40));
 
         jLabel7.setForeground(new java.awt.Color(204, 204, 204));
         jLabel7.setText("product id");
