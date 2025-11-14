@@ -5,7 +5,11 @@
 package javaapplication13;
 
 import java.awt.Color;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,6 +24,32 @@ public class adminPanel extends javax.swing.JFrame {
      *
      *
      */
+    public void callUserList() {
+        try {
+            String query = "SELECT id, username, status FROM `userdetails`";
+            PreparedStatement statement = productsFrames.conn().prepareStatement(query);
+            ResultSet res = statement.executeQuery();
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("User ID");
+            model.addColumn("Username");
+            model.addColumn("Status");
+
+            while (res.next()) {
+                int id = res.getInt("id");
+                String username = res.getString("username");
+                String status = res.getString("status");
+
+                model.addRow(new Object[]{id, username, status});
+            }
+
+            userListTable.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void callData() {
         try {
             String query = "SELECT * FROM `loginHistory`";
@@ -42,6 +72,35 @@ public class adminPanel extends javax.swing.JFrame {
         }
 
     }
+
+    // Method to load reports from DB into the table
+    private void loadReports() {
+        try {
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:5050/mydatabase", "root", "");
+            String query = "SELECT * FROM `reportlist`";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("Description");
+            model.addColumn("Type");
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String type = rs.getString("reportMsg");
+                String description = rs.getString("reportType");
+                model.addRow(new Object[]{id, type, description});
+            }
+
+            reportListTable.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error loading reports: " + e.getMessage());
+        }
+    }
+
     String credential;
 
     public adminPanel(String credential) {
@@ -53,6 +112,9 @@ public class adminPanel extends javax.swing.JFrame {
         loginHistoryLabel1.setVisible(false);
         userListLabel1.setVisible(false);
         userListPanel.setVisible(false);
+        callUserList();
+        loadReports();
+        reportListPanel.setVisible(false);
     }
 
     /**
@@ -64,6 +126,12 @@ public class adminPanel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        reportListPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        reportListTable = new javax.swing.JTable();
+        reportMsg = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         exitBtn = new javax.swing.JLabel();
@@ -72,6 +140,8 @@ public class adminPanel extends javax.swing.JFrame {
         userListTable = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         loginHistoryLabel = new javax.swing.JLabel();
+        reportList = new javax.swing.JLabel();
+        reportList1 = new javax.swing.JLabel();
         userListLabel = new javax.swing.JLabel();
         userListLabel1 = new javax.swing.JLabel();
         loginHistoryLabel1 = new javax.swing.JLabel();
@@ -88,6 +158,42 @@ public class adminPanel extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        reportListPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        reportListTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        reportListTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reportListTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(reportListTable);
+
+        reportListPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 340, 250));
+
+        reportMsg.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        reportMsg.setForeground(new java.awt.Color(255, 255, 255));
+        reportListPanel.add(reportMsg, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 170, 250));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Report User List");
+        reportListPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift (1) (1).png"))); // NOI18N
+        reportListPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 910, 450));
+
+        getContentPane().add(reportListPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 590, 330));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -154,7 +260,41 @@ public class adminPanel extends javax.swing.JFrame {
                 loginHistoryLabelMouseExited(evt);
             }
         });
-        getContentPane().add(loginHistoryLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 210, 50));
+        getContentPane().add(loginHistoryLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 210, 50));
+
+        reportList.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        reportList.setForeground(new java.awt.Color(0, 255, 0));
+        reportList.setText("        Report Messages");
+        reportList.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        reportList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reportListMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                reportListMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                reportListMouseExited(evt);
+            }
+        });
+        getContentPane().add(reportList, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 210, 50));
+
+        reportList1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        reportList1.setForeground(new java.awt.Color(0, 255, 0));
+        reportList1.setText("        Report Messages");
+        reportList1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        reportList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reportList1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                reportList1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                reportList1MouseExited(evt);
+            }
+        });
+        getContentPane().add(reportList1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 210, 50));
 
         userListLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         userListLabel.setForeground(new java.awt.Color(0, 255, 0));
@@ -188,7 +328,7 @@ public class adminPanel extends javax.swing.JFrame {
                 loginHistoryLabel1MouseExited(evt);
             }
         });
-        getContentPane().add(loginHistoryLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 210, 50));
+        getContentPane().add(loginHistoryLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 210, 50));
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/resizecom_background ecoShift (1).png"))); // NOI18N
         jLabel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -327,6 +467,9 @@ public class adminPanel extends javax.swing.JFrame {
         userListLabel.setBackground(null);
         userListLabel.setOpaque(false);
         userListPanel.setVisible(false);
+        reportListPanel.setVisible(false);
+        reportList.setBackground(null);
+        reportList.setOpaque(false);
     }//GEN-LAST:event_loginHistoryLabelMouseClicked
 
     private void userListLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userListLabelMouseClicked
@@ -337,6 +480,9 @@ public class adminPanel extends javax.swing.JFrame {
         loginHistoryLabel.setBackground(null);
         loginHistoryLabel.setOpaque(false);
         loginHistoryPanel.setVisible(false);
+        reportListPanel.setVisible(false);
+        reportList.setBackground(null);
+        reportList.setOpaque(false);
     }//GEN-LAST:event_userListLabelMouseClicked
 
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
@@ -346,6 +492,52 @@ public class adminPanel extends javax.swing.JFrame {
     private void exitBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseEntered
 
     }//GEN-LAST:event_exitBtnMouseEntered
+
+    private void reportListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportListMouseClicked
+        reportListPanel.setVisible(true);
+        reportList.setOpaque(true);
+        reportList.setBackground(Color.white);
+
+        loginHistoryLabel.setBackground(null);
+        loginHistoryLabel.setOpaque(false);
+        loginHistoryPanel.setVisible(false);
+
+        userListLabel.setBackground(null);
+        userListLabel.setOpaque(false);
+    }//GEN-LAST:event_reportListMouseClicked
+
+    private void reportListMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportListMouseEntered
+        reportList1.setVisible(true);
+        reportList1.setOpaque(true);
+        reportList1.setBackground(Color.white);
+    }//GEN-LAST:event_reportListMouseEntered
+
+    private void reportListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportListMouseExited
+        reportList1.setVisible(false);
+        reportList1.setOpaque(true);
+        reportList1.setBackground(Color.white);
+    }//GEN-LAST:event_reportListMouseExited
+
+    private void reportList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportList1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reportList1MouseClicked
+
+    private void reportList1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportList1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reportList1MouseEntered
+
+    private void reportList1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportList1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reportList1MouseExited
+
+    private void reportListTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportListTableMouseClicked
+        int selectedRow = reportListTable.getSelectedRow();
+        if (selectedRow != -1) {
+            // Assuming description is in column 2 (index 2)
+            String description = reportListTable.getValueAt(selectedRow, 1).toString();
+            reportMsg.setText(description);
+        }
+    }//GEN-LAST:event_reportListTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -388,17 +580,25 @@ public class adminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel loginHistoryLabel;
     private javax.swing.JLabel loginHistoryLabel1;
     private javax.swing.JPanel loginHistoryPanel;
     private javax.swing.JTable myTable1;
+    private javax.swing.JLabel reportList;
+    private javax.swing.JLabel reportList1;
+    private javax.swing.JPanel reportListPanel;
+    private javax.swing.JTable reportListTable;
+    private javax.swing.JLabel reportMsg;
     private javax.swing.JLabel userListLabel;
     private javax.swing.JLabel userListLabel1;
     private javax.swing.JPanel userListPanel;

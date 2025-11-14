@@ -71,6 +71,9 @@ public class dashboardEmployee extends javax.swing.JFrame {
         reportHighlight.setText("    report");
         reportHighlight.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         reportHighlight.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reportHighlightMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 reportHighlightMouseEntered(evt);
             }
@@ -244,6 +247,11 @@ public class dashboardEmployee extends javax.swing.JFrame {
     private void exitBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseEntered
 
     }//GEN-LAST:event_exitBtnMouseEntered
+
+    private void reportHighlightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportHighlightMouseClicked
+        new reportFrame(credential).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_reportHighlightMouseClicked
 
 
     /**

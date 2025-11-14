@@ -44,7 +44,6 @@ public class dashboardAdmin extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         exitBtn = new javax.swing.JLabel();
         settingPanel = new javax.swing.JPanel();
-        reportHighlight = new javax.swing.JLabel();
         logoutHighlight = new javax.swing.JLabel();
         settingClose = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -82,20 +81,6 @@ public class dashboardAdmin extends javax.swing.JFrame {
         settingPanel.setBackground(new java.awt.Color(255, 255, 255));
         settingPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        reportHighlight.setBackground(new java.awt.Color(255, 0, 0));
-        reportHighlight.setForeground(new java.awt.Color(255, 51, 51));
-        reportHighlight.setText("    report");
-        reportHighlight.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        reportHighlight.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                reportHighlightMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                reportHighlightMouseExited(evt);
-            }
-        });
-        settingPanel.add(reportHighlight, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 60, 30));
-
         logoutHighlight.setText("    Logout");
         logoutHighlight.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutHighlight.setFocusCycleRoot(true);
@@ -110,7 +95,7 @@ public class dashboardAdmin extends javax.swing.JFrame {
                 logoutHighlightMouseExited(evt);
             }
         });
-        settingPanel.add(logoutHighlight, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 60, 30));
+        settingPanel.add(logoutHighlight, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 60, 30));
 
         settingClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication13/icons8-chevron-down-26.png"))); // NOI18N
         settingClose.setAlignmentX(0.5F);
@@ -241,15 +226,6 @@ public class dashboardAdmin extends javax.swing.JFrame {
         logoutHighlight.setBackground(null);
     }//GEN-LAST:event_logoutHighlightMouseExited
 
-    private void reportHighlightMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportHighlightMouseEntered
-        reportHighlight.setOpaque(true);
-        reportHighlight.setBackground(Color.red);
-    }//GEN-LAST:event_reportHighlightMouseEntered
-
-    private void reportHighlightMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportHighlightMouseExited
-        reportHighlight.setBackground(null);
-    }//GEN-LAST:event_reportHighlightMouseExited
-
     private void logoutHighlightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutHighlightMouseClicked
 
         int result = JOptionPane.showConfirmDialog(
@@ -315,7 +291,6 @@ public class dashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel logoutHighlight;
-    private javax.swing.JLabel reportHighlight;
     private javax.swing.JLabel settingBtn;
     private javax.swing.JLabel settingClose;
     private javax.swing.JPanel settingPanel;
